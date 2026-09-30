@@ -1,0 +1,15 @@
+{
+  "_note": "Python ガード（scripts/guard/py/sitecustomize.py）が google-genai の generate_content に返す応答の定義。prompt_contains の全文字列を含むプロンプトに、その text を返す。どの規則にも当たらない呼び出しは例外で止まる（黙って成功させない）。text は、アプリの解析器が読む形式（JSON か Markdown か、見出し名）をコードで確かめてから書く。",
+  "rules": [
+    {
+      "id": "summarize.note",
+      "prompt_contains": ["以下のメモを要約してください"],
+      "text": "{\"summary\": \"来週の定例で、在庫アラートの閾値を 20 個から 30 個に変える案を確認する。\", \"tags\": [\"在庫\", \"定例\"]}"
+    },
+    {
+      "id": "classify.ticket",
+      "prompt_contains": ["カテゴリを 1 つ選び", "JSONのみで回答"],
+      "text": "{\"category\": \"請求\", \"confidence\": \"high\", \"reason\": \"本文に請求書番号と支払期日がある\"}"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8">
+<title>架空ラベル</title>
+<style>
+/* 飲料ラベル（架空）。実寸 180mm × 70mm。誤字を 1 か所（「原材料名」→「原材科名」）わざと入れている。 */
+@page { size: 180mm 70mm; margin: 0; }
+html,body{margin:0;padding:0}
+body{width:180mm;height:70mm;overflow:hidden;font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#1b2a3a;background:#fff;position:relative}
+.bg{position:absolute;inset:0;background:linear-gradient(100deg,#f8e97a 0 38%,#fffbe6 38% 100%)}
+.wave{position:absolute;left:0;bottom:0;width:100%;height:22mm;background:radial-gradient(ellipse at 30% 120%,#7fc6e8 0 60%,transparent 61%),radial-gradient(ellipse at 80% 140%,#a8dcf0 0 55%,transparent 56%);opacity:.9}
+.brand{position:absolute;left:8mm;top:6mm;font-size:9pt;letter-spacing:.2em;color:#4a5a1f;font-weight:600}
+.name{position:absolute;left:8mm;top:12mm;font-size:21pt;font-weight:900;line-height:1.1;color:#264b1c;letter-spacing:.02em;white-space:nowrap}
+.name small{display:block;font-size:9.5pt;font-weight:700;letter-spacing:.25em;color:#3a6a2a;margin-top:1.5mm}
+.badges{position:absolute;left:8mm;top:37mm;display:flex;gap:2mm}
+.badge{border:0.5mm solid #264b1c;border-radius:999px;padding:0.8mm 3mm;font-size:8.5pt;font-weight:700;color:#264b1c;background:rgba(255,255,255,.7)}
+.lemon{position:absolute;left:48mm;top:45mm;width:17mm;height:17mm;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff59a,#f2c81e 70%,#c99a10);box-shadow:0 1mm 2mm rgba(0,0,0,.15)}
+.lemon::after{content:"";position:absolute;left:3mm;top:3mm;width:12mm;height:12mm;border-radius:50%;background:repeating-conic-gradient(#fff9c4 0 22deg,#f7e27a 22deg 45deg);opacity:.85}
+.volume{position:absolute;left:8mm;bottom:5mm;font-size:16pt;font-weight:900;color:#1b2a3a}
+.volume span{font-size:9pt;font-weight:600;margin-left:1mm}
+/* 一括表示 */
+.ikkatsu{position:absolute;left:74mm;top:5mm;width:66mm;border:0.3mm solid #1b2a3a;background:#fff;font-size:6pt;line-height:1.3}
+.ikkatsu table{width:100%;border-collapse:collapse}
+.ikkatsu th{width:15mm;text-align:left;font-weight:600;padding:0.7mm 1.2mm;border-bottom:0.2mm solid #1b2a3a;border-right:0.2mm solid #1b2a3a;vertical-align:top;background:#f6f6f2;white-space:nowrap}
+.ikkatsu td{padding:0.7mm 1.2mm;border-bottom:0.2mm solid #1b2a3a;vertical-align:top}
+.ikkatsu tr:last-child th,.ikkatsu tr:last-child td{border-bottom:0}
+/* 栄養成分 */
+.nutri{position:absolute;left:74mm;top:47.5mm;width:34mm;border:0.3mm solid #1b2a3a;background:#fff;font-size:5.8pt;line-height:1.2}
+.nutri .h{background:#1b2a3a;color:#fff;padding:0.5mm 1.2mm;font-weight:700}
+.nutri table{width:100%;border-collapse:collapse}
+.nutri td{padding:0.35mm 1.2mm;border-bottom:0.15mm dotted #999}
+.nutri td:last-child{text-align:right}
+.nutri tr:last-child td{border-bottom:0}
+.notes{position:absolute;left:110mm;top:48mm;width:30mm;font-size:5.5pt;line-height:1.4;color:#1b2a3a}
+.mark{position:absolute;right:8mm;top:6mm;width:9mm;height:9mm;border:0.4mm solid #1b2a3a;border-radius:1.5mm;display:flex;align-items:center;justify-content:center;font-size:7pt;font-weight:800;background:#fff}
+.barcode{position:absolute;right:8mm;bottom:5mm;width:30mm;height:11mm;background:#fff;padding:1mm;display:flex;flex-direction:column;align-items:center}
+.bars{width:100%;height:8mm;background:repeating-linear-gradient(90deg,#000 0 0.35mm,transparent 0.35mm 0.7mm,#000 0.7mm 1.2mm,transparent 1.2mm 1.6mm,#000 1.6mm 1.85mm,transparent 1.85mm 2.5mm)}
+.digits{font-size:5.5pt;letter-spacing:.15em;font-family:ui-monospace,Menlo,monospace}
+.lot{position:absolute;right:8mm;top:26mm;width:30mm;text-align:right;font-size:6pt;font-family:ui-monospace,Menlo,monospace;color:#1b2a3a}
+.fict{position:absolute;right:8mm;top:17mm;font-size:5pt;color:#8a8a80;letter-spacing:.05em}
+</style></head>
+<body>
+<div class="bg"></div><div class="wave"></div>
+<div class="brand">KAKU DRINK CO.</div>
+<div class="name">レモン<br>スパークリング<small>無糖・果汁1%</small></div>
+<div class="badges"><span class="badge">カロリーゼロ</span><span class="badge">保存料不使用</span></div>
+<div class="lemon"></div>
+<div class="volume">500<span>ml</span></div>
+
+<div class="ikkatsu">
+  <table>
+    <tr><th>名称</th><td>炭酸飲料</td></tr>
+    <tr><th>原材科名</th><td>レモン果汁（イタリア製造）／炭酸、酸味料、香料、甘味料（アセスルファムK、スクラロース）、酸化防止剤（ビタミンC）</td></tr>
+    <tr><th>内容量</th><td>500ml</td></tr>
+    <tr><th>賞味期限</th><td>キャップに記載</td></tr>
+    <tr><th>保存方法</th><td>直射日光・高温多湿を避けて保存</td></tr>
+    <tr><th>販売者</th><td>架空ドリンク株式会社　東京都架空区見本町1-2-3</td></tr>
+    <tr><th>製造所</th><td>架空ボトリング株式会社 見本工場　栃木県架空市例示1-1</td></tr>
+  </table>
+</div>
+
+<div class="nutri">
+  <div class="h">栄養成分表示（100mlあたり）</div>
+  <table>
+    <tr><td>エネルギー</td><td>0kcal</td></tr>
+    <tr><td>たんぱく質</td><td>0g</td></tr>
+    <tr><td>脂質</td><td>0g</td></tr>
+    <tr><td>炭水化物</td><td>0.3g</td></tr>
+    <tr><td>食塩相当量</td><td>0.02g</td></tr>
+  </table>
+</div>
+<div class="notes">●開栓後はすぐにお飲みください。●凍らせないでください。容器が破損することがあります。●容器への衝撃を避けてください。●お問い合わせ先：架空ドリンク株式会社 お客様相談室 0120-000-000（架空）</div>
+<div class="mark">PET</div>
+<div class="fict">※このラベルは架空です</div>
+<div class="lot">LOT 2609301 A</div>
+<div class="barcode"><div class="bars"></div><div class="digits">4 900000 000000</div></div>
+</body></html>

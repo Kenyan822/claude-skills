@@ -1,0 +1,13 @@
+{
+  "name": "kenya-skills",
+  "owner": {
+    "name": "Kenya Okubo"
+  },
+  "plugins": [
+    {
+      "name": "visual-walkthrough",
+      "source": "./plugins/visual-walkthrough",
+      "description": "PR や issue を、本物のアプリのスクリーンショットで見て分かる HTML アーティファクトにする（main と PR、現状と提案を並べて再生。通信と DB 差分つき）"
+    }
+  ]
+}

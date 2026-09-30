@@ -1,0 +1,8 @@
+{
+  "name": "visual-walkthrough",
+  "version": "1.0.0",
+  "description": "PR や issue を、本物のアプリのスクリーンショットで見て分かる HTML アーティファクトにする（main と PR、現状と提案を並べて再生。通信と DB 差分つき）",
+  "author": {
+    "name": "OptiMax"
+  }
+}

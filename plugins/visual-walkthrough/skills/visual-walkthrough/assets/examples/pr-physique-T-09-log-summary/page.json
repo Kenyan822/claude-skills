@@ -1,0 +1,71 @@
+{
+  "title": "記録画面の種目別小計",
+  "mode": "pr",
+  "storageKey": "physique-T09-per-exercise-summary",
+  "captureDir": "capture",
+  "tags": [
+    {"text": "画面は本物のスクリーンショット（2026-10-01）", "kind": "ok"},
+    {"text": "データは架空（撮影用 seed）", "kind": "warn"},
+    {"text": "Supabase Auth は Claude の代替応答", "kind": "warn"},
+    {"text": "撮影範囲: /log のみ"}
+  ],
+  "eyebrow": "PR · physique-analytics · T-09",
+  "h1": "今日の記録に、種目ごとのセット数とトン数の小計を出す",
+  "meta": [
+    "<span class=\"br\">main</span> ← <span class=\"br pr\">feat/T-09-web-log-per-exercise-summary</span>",
+    "変更 <b>3 ファイル</b> · <b class=\"mono\">+66 −0</b> · web のみ",
+    "▶ で main と PR に同じ操作をして、違いを見比べます。画面の光っている所は押せます"
+  ],
+  "cards": [
+    {"k": "画面 ① 今日の記録", "v": "見出しの下に <span class=\"add\">種目ごとの小計チップ</span> を足す。合計行（N セット / N kg）は従来どおり", "f": "app/log/LogForm.tsx"},
+    {"k": "集計ロジック（新規）", "v": "<span class=\"add\">summarizeByExercise</span>：セット数とトン数（kg × 回）を種目ごとに畳む純関数。並びは最初に記録した種目から", "f": "app/log/summary.ts"},
+    {"k": "テスト（新規）", "v": "畳み込み・並び順・空の 3 ケース。仕様がそのままテスト", "f": "app/log/summary.test.ts"}
+  ],
+  "lanes": {
+    "before": {"label": "main（変更前）", "short": "main", "who": "main 0ed0e7e · /log", "file": "before.json", "absent": "main にはこの操作がない"},
+    "after": {"label": "PR（変更後）", "short": "PR", "who": "feat/T-09-web-log-per-exercise-summary 8664c8e · /log", "file": "after.json", "absent": "PR にはこの操作がない"}
+  },
+  "defaultView": "after",
+  "viewHint": "大きく見たいときは片方ずつ。違いを一目で見るなら「並べて」。",
+  "dbTitle": "DB と通信",
+  "dbWho": "使い捨て Postgres。main も PR も同じ行が増える（違いは表示だけ）",
+  "logHint": "ブラウザ→サーバー、サーバー→Supabase Auth（代替）",
+  "annotate": {
+    "/log#loadLastPerformance": "前回値を引く（loadLastPerformance）",
+    "/log#recordSet": "セットを記録する（recordSet）",
+    "/log#deleteSet": "セットを消す（deleteSet）",
+    "/log": "記録画面を開く"
+  },
+  "externalLabels": {
+    "auth-user": "ログイン中ユーザーの確認（proxy.ts の getUser。毎リクエスト）",
+    "auth-login": "ログイン",
+    "auth-refresh": "トークン更新"
+  },
+  "durations": {"default": 2600, "pick-bench": 3000, "rec1": 3400, "rec3": 3800, "deleted": 3400},
+  "checksHead": {"eyebrow": "REVIEW POINTS", "h2": "レビューで見るところ", "p": "差分と要件 T-09 から。押すとその場面に飛びます。"},
+  "checks": [
+    {"st": "ok", "title": "小計は一覧と同じ数字から出ている", "text": "画面が持つ今日のセット（logged）を畳んでいるだけ。API・DB は触っていないので、増える行は main と同じ。", "jump": 10},
+    {"st": "ok", "title": "消したら小計も減る", "text": "削除後の logged から計算し直す。セット番号は振り直さないので #2 だけが残る（T-10 の方針どおり）。", "jump": 12},
+    {"st": "ok", "title": "並びは最初に記録した種目から", "text": "Map の挿入順。途中で前の種目に戻っても順は変わらない。テストで固定している。", "jump": 10},
+    {"st": "todo", "stText": "未撮影", "title": "スマホ幅でチップが折り返すか", "text": "flex-wrap なので折り返す想定。ジムで使う縦画面は撮っていない。", "jump": 4, "jumpText": "PC 幅のみ撮影", "disabled": true}
+  ],
+  "details": [
+    {"summary": "この PR で触っていないこと", "items": [
+      "API・DB スキーマ・openapi.yaml。通信ログの Server Action と INSERT は main と同一",
+      "iOS の記録画面（<span class=\"mono\">ios/</span>）。同じ小計を出すなら別の PR",
+      "トップ（<span class=\"mono\">/</span>）の「種目別のセットとトン数」。こちらは元から種目別"
+    ]},
+    {"summary": "撮影の条件", "items": [
+      "main 側 = <span class=\"mono\">0ed0e7e</span>（merge-base）、PR 側 = <span class=\"mono\">8664c8e</span>（ブランチ先端）。API は両者で同一なので 1 プロセスを共用",
+      "ローカルで <span class=\"mono\">next dev</span>（Node 24 / pnpm）と Go API（<span class=\"mono\">AUTH_DISABLED=true</span>）を起動。使い捨て Postgres にマイグレーション 18 本と架空 seed（9/28 にベンチプレス 3 セット・スクワット 2 セット）を投入",
+      "Supabase Auth は手元の代替サーバー。ログイン画面を 1 回通して Cookie を作らせた（撮影には含めない）。外向き通信は Google Fonts 以外を遮断",
+      "ビューポート 1280×860 の 2 倍解像度。1 操作ごとに画面・押した要素の位置・通信・workout_sessions / workout_sets の差分を記録",
+      "Server Action の名前（recordSet など）は引数の形からコードで特定した注記。通信には含まれていない",
+      "Next.js の開発インジケータ（左下の N）は CSS で隠して撮影"
+    ]}
+  ],
+  "foot": [
+    "撮影: <span class=\"mono\">visual-walkthrough capture-lib</span>（Playwright / Chromium・2 倍解像度）",
+    "seed は架空データ。実在の記録・人物とは無関係"
+  ]
+}
