@@ -214,19 +214,30 @@ export function dockerPsqlTables({ container, user, db, queries }) {
     return { name: q.name, columns: q.columns, rows: rows.map((r) => ({ id: r[0], cells: (q.format ? q.format(r) : r) })) };
   });
 }
-/** 接続 URL で psql を叩いて複数のテーブルを読む（bootstrap.sh がローカルクラスタを立てたとき用）。queries は dockerPsqlTables と同じ形。 */
-export function psqlTables({ url, queries }) {
-  return async () => queries.map((q) => {
-    const out = execFileSync("psql", [url, "-At", "-F", "\t", "-c", q.sql], { encoding: "utf8" }).trim();
-    const rows = out ? out.split("\n").map((l) => l.split("\t")) : [];
-    return { name: q.name, columns: q.columns, rows: rows.map((r) => ({ id: r[0], cells: (q.format ? q.format(r) : r) })) };
-  });
+/** 接続 URL で Node の pg から複数のテーブルを読む（Docker 無しのローカル Postgres 用。psql コマンドが要らない）。queries は dockerPsqlTables と同じ形。requireFrom は pg を入れた package.json（bootstrap.sh の env.json の pg_from）。 */
+export function pgTables({ url, queries, requireFrom }) {
+  const { Client } = createRequire(requireFrom)("pg");
+  return async () => {
+    const c = new Client({ connectionString: url });
+    await c.connect();
+    try {
+      const out = [];
+      for (const q of queries) {
+        const res = await c.query({ text: q.sql, rowMode: "array" });
+        const rows = res.rows.map((r) => r.map((v) => (v === null ? "NULL" : v instanceof Date ? v.toISOString() : String(v))));
+        out.push({ name: q.name, columns: q.columns, rows: rows.map((r) => ({ id: r[0], cells: q.format ? q.format(r) : r })) });
+      }
+      return out;
+    } finally {
+      await c.end();
+    }
+  };
 }
-/** bootstrap.sh が書いた env.json を読み、pg.mode に応じて dockerPsqlTables / psqlTables を選ぶ。 */
+/** bootstrap.sh が書いた env.json を読み、pg.mode に応じて dockerPsqlTables / pgTables を選ぶ。 */
 export function tablesFromEnv(envJsonPath, queries) {
   const env = JSON.parse(fs.readFileSync(envJsonPath, "utf8"));
   if (env.pg?.mode === "docker") return dockerPsqlTables({ container: env.pg.container, user: env.pg.user, db: env.pg.db, queries });
-  if (env.pg?.mode === "local") return psqlTables({ url: env.pg.url, queries });
+  if (env.pg?.mode === "local") return pgTables({ url: env.pg.url, queries, requireFrom: env.pg_from });
   throw new Error("env.json に使える Postgres がありません（bootstrap.sh を先に実行）");
 }
 /** fake-gcs-server のバケット内オブジェクト一覧を 1 テーブルとして返す。 */
