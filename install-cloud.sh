@@ -17,6 +17,7 @@ while IFS= read -r f; do
   mkdir -p "$TMP/skill/$(dirname "$f")"
   get "$BASE/$f" > "$TMP/skill/$f"
 done < "$TMP/MANIFEST"
+cp "$TMP/MANIFEST" "$TMP/skill/MANIFEST"
 [ -f "$TMP/skill/SKILL.md" ] || { echo "SKILL.md が取れませんでした" >&2; exit 1; }
 chmod +x "$TMP/skill/scripts/"*.sh 2>/dev/null || true
 printf '%s %s %s\n' "$REPO" "$REF" "$(date -u +%FT%TZ)" > "$TMP/skill/.source"
