@@ -1,0 +1,14 @@
+assets/examples/fictional-label/label.html
+assets/examples/fictional-label/render.mjs
+assets/examples/mock-responses.example.json
+assets/examples/pr-physique-T-09-log-summary/auth-stub.mjs
+assets/examples/pr-physique-T-09-log-summary/page.json
+assets/examples/pr-physique-T-09-log-summary/run-lane.sh
+assets/examples/pr-physique-T-09-log-summary/scenario.mjs
+assets/viewer.html
+scripts/bootstrap.sh
+scripts/capture-lib.mjs
+scripts/guard/node/egress-guard.cjs
+scripts/guard/py/sitecustomize.py
+scripts/verify.mjs
+SKILL.md
